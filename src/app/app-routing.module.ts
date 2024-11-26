@@ -1,6 +1,6 @@
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
-import { authGuard } from './core/guards/auth.guard';
+import {NgModule} from '@angular/core';
+import {RouterModule, Routes} from '@angular/router';
+import {authGuard} from './core/guards/auth.guard';
 
 const routes: Routes = [
   //{ path: '', redirectTo: '/auth/login', pathMatch: 'full' },
@@ -11,6 +11,10 @@ const routes: Routes = [
   {
     path: 'feed', loadChildren: () => import('./features/feed/feed.module')
       .then(m => m.FeedModule)//, canActivate: [authGuard]
+  },
+  {
+    path: 'profile', loadChildren: () => import('./features/profile/profile.module')
+      .then(m => m.ProfileModule)
   }
 ];
 
@@ -18,4 +22,5 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {
+}

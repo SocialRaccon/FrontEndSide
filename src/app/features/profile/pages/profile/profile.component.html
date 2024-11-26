@@ -1,0 +1,44 @@
+<div class="container db-social">
+  <div class="jumbotron jumbotron-fluid" style="background: #2c304d;"></div>
+  <div class="container-fluid">
+    <div class="row justify-content-center">
+      <div class="col-xl-11">
+        <div class="widget head-profile has-shadow">
+          <div class="widget-body pb-0">
+            <div class="row d-flex align-items-center">
+              <div
+                class="col-xl-4 col-md-4 d-flex justify-content-lg-start justify-content-md-start justify-content-center">
+                <ul>
+                  <li class="py-5">
+                    <div class="counter">246</div>
+                    <div class="heading">Seguidores</div>
+                  </li>
+                  <li>
+                    <div class="counter">30</div>
+                    <div class="heading">Seguidos</div>
+                  </li>
+                </ul>
+              </div>
+              <div class="col-xl-4 col-md-5 d-flex justify-content-center">
+                <div class="image-default">
+                  <img class="rounded-circle" src="https://bootdey.com/img/Content/avatar/avatar5.png" alt="...">
+                </div>
+                <div class="infos">
+                  <h2>{{txtUsername}}</h2>
+                  <div class="location">{{txtDescription}}
+                  </div>
+                </div>
+              </div>
+              <div
+                class="col-xl-4 col-md-4 d-flex justify-content-lg-end justify-content-md-end justify-content-center">
+                <div class="follow">
+                  <a class="btn btn-shadow" (click)="follow()"><i class="la la-user-plus"></i>{{ txtFollow }}</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
