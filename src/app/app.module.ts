@@ -12,19 +12,26 @@ import { AuthModule } from './features/auth/auth.module';
 import { FeaturesModule } from './features/features.module';
 import {AuthInterceptor} from "./core/interceptors/auth.interceptor";
 
+import { LoginComponent } from './auth/login/login.component';
+import { ReactiveFormsModule } from '@angular/forms';
+import { ToastrModule } from 'ngx-toastr';
+
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    HttpClientModule, // Add HttpClientModule here
+    HttpClientModule,
+    ReactiveFormsModule,// Add HttpClientModule here
     LayoutModule,
     SharedModule,
     AuthModule,
     CoreModule,
-    FeaturesModule
+    FeaturesModule,
+    ToastrModule.forRoot()
   ],
   /*providers: [
     {
