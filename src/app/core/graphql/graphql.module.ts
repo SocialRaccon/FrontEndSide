@@ -1,8 +1,8 @@
-import { NgModule } from '@angular/core';
-import { APOLLO_OPTIONS } from 'apollo-angular';
-import { HttpLink } from 'apollo-angular/http';
-import { InMemoryCache } from '@apollo/client/core';
-import { HttpClientModule } from '@angular/common/http';
+import {NgModule} from '@angular/core';
+import {APOLLO_OPTIONS} from 'apollo-angular';
+import {HttpLink} from 'apollo-angular/http';
+import {InMemoryCache} from '@apollo/client/core';
+import {HttpClientModule} from '@angular/common/http';
 
 @NgModule({
   imports: [HttpClientModule],
@@ -19,4 +19,6 @@ import { HttpClientModule } from '@angular/common/http';
     },
   ],
 })
-export class GraphqlModule {}
+export class GraphqlModule {
+
+}
