@@ -43,7 +43,11 @@ export class ProfileComponent implements OnInit {
         this.isLoading = false;
       },
       error: (error) => {
-        this.error = 'Error al cargar el perfil';
+        if (error.status === 404) {
+          this.error = 'Perfil no encontrado';
+        }else {
+          this.error = 'Error al cargar el perfil';
+        }
         this.isLoading = false;
       }
     });
@@ -58,7 +62,11 @@ export class ProfileComponent implements OnInit {
         this.isLoading = false;
       },
       error: (error) => {
-        this.error = 'Error al cargar el perfil';
+        if (error.status === 404) {
+          this.error = 'Perfil no encontrado';
+        }else {
+          this.error = 'Error al cargar el perfil';
+        }
         this.isLoading = false;
       }
     });
