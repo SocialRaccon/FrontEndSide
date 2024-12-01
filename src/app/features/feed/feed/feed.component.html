@@ -1,0 +1,39 @@
+<!-- src/app/features/feed/feed.component.html -->
+<div class="feed">
+  <!-- Barra superior -->
+  <div class="header">
+    <h2>Mi Feed</h2>
+    <div class="user-info">
+      <img src="https://via.placeholder.com/50" alt="Avatar" class="avatar">
+      <span>Usuario</span>
+    </div>
+  </div>
+
+  <!-- Formulario para crear una publicación -->
+  <div class="new-post">
+    <textarea [(ngModel)]="newPostContent" placeholder="¿Qué estás pensando?" rows="3"></textarea>
+    <input [(ngModel)]="newPostImage" type="url" placeholder="Añadir imagen (URL)" />
+    <button (click)="addPost()">Publicar</button>
+  </div>
+
+  <!-- Feed de publicaciones -->
+  <div *ngFor="let post of posts" class="post">
+    <div class="post-header">
+      <img src="https://via.placeholder.com/50" alt="Avatar" class="avatar">
+      <span>UsuarioX</span>
+    </div>
+    <p>{{ post.content }}</p>
+    <img *ngIf="post.image" [src]="post.image" alt="Post image" class="post-image">
+
+    <div class="post-actions">
+      <button (click)="likePost(post.id)">Me gusta ({{ post.likes }})</button>
+      <button (click)="commentOnPost(post.id, 'Comentario de prueba')">Comentar</button>
+    </div>
+
+    <div class="comments">
+      <div *ngFor="let comment of post.comments" class="comment">
+        <strong>{{ comment.username }}:</strong> {{ comment.comment }}
+      </div>
+    </div>
+  </div>
+</div>

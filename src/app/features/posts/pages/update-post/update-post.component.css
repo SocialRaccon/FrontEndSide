@@ -1,0 +1,11 @@
+.update-post-page {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.update-post-page h2 {
+  font-size: 24px;
+  margin-bottom: 20px;
+  text-align: center;
+}

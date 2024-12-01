@@ -1,0 +1,119 @@
+/* src/app/features/feed/feed.component.css */
+.feed {
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 10px;
+  margin-bottom: 20px;
+}
+
+.header h2 {
+  margin: 0;
+  font-size: 24px;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+}
+
+.user-info .avatar {
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+.new-post {
+  margin-bottom: 20px;
+}
+
+.new-post textarea {
+  width: 100%;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+  margin-bottom: 10px;
+}
+
+.new-post input {
+  width: 100%;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+  margin-bottom: 10px;
+}
+
+.new-post button {
+  padding: 10px 15px;
+  background-color: #007BFF;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.new-post button:hover {
+  background-color: #0056b3;
+}
+
+.post {
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  margin-bottom: 20px;
+  padding: 15px;
+}
+
+.post-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.post-header .avatar {
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+.post-header span {
+  font-weight: bold;
+}
+
+.post-image {
+  width: 100%;
+  max-height: 400px;
+  object-fit: cover;
+  margin-top: 10px;
+}
+
+.post-actions {
+  margin-top: 10px;
+}
+
+.post-actions button {
+  background: none;
+  border: none;
+  color: #007BFF;
+  cursor: pointer;
+  padding: 5px;
+}
+
+.post-actions button:hover {
+  text-decoration: underline;
+}
+
+.comments {
+  margin-top: 10px;
+  font-size: 14px;
+}
+
+.comment {
+  margin-bottom: 5px;
+}

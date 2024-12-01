@@ -1,1 +1,26 @@
-<p>create-post works!</p>
+<div class="post-form-container">
+  <form [formGroup]="postForm" (ngSubmit)="onSubmit()">
+    <!-- Campo para escribir contenido -->
+    <textarea
+      formControlName="content"
+      placeholder="¿Qué estás pensando?"
+      rows="4"
+    ></textarea>
+    <div *ngIf="postForm.get('content')?.invalid && postForm.get('content')?.touched">
+      <small>El contenido es obligatorio y debe tener al menos 10 caracteres.</small>
+    </div>
+
+    <!-- Campo para subir imagen -->
+    <input
+      type="file"
+      (change)="onImageSelected($event)"
+      accept="image/*"
+    />
+    <div *ngIf="postForm.get('image')?.invalid && postForm.get('image')?.touched">
+      <small>Debes seleccionar una imagen.</small>
+    </div>
+
+    <!-- Botón para enviar el formulario -->
+    <button type="submit" [disabled]="postForm.invalid">Publicar</button>
+  </form>
+</div>

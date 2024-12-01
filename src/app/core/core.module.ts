@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AuthService } from './services/auth/auth.service';
+import {PostService} from "@core/services/post.service";
 
 @NgModule({
   declarations: [],
@@ -8,7 +9,8 @@ import { AuthService } from './services/auth/auth.service';
     CommonModule
   ],
   providers: [
-    AuthService
+    AuthService,
+    PostService
   ]
 })
 export class CoreModule { }

@@ -10,15 +10,15 @@ import { SharedModule } from './shared/shared.module';
 import { CoreModule } from './core/core.module';
 import { AuthModule } from './features/auth/auth.module';
 import { FeaturesModule } from './features/features.module';
-import {AuthInterceptor} from "./core/interceptors/auth.interceptor";
-import { LoginComponent } from './auth/login/login.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ToastrModule } from 'ngx-toastr';
+import {PostsModule} from "./features/posts/posts.module";
+import {PostsRoutingModule} from "./features/posts/posts-routing.module";
+import {RouterModule} from "@angular/router";
 
 @NgModule({
   declarations: [
     AppComponent,
-    LoginComponent,
   ],
   imports: [
     BrowserModule,
@@ -28,7 +28,10 @@ import { ToastrModule } from 'ngx-toastr';
     LayoutModule,
     SharedModule,
     AuthModule,
+    RouterModule,
     CoreModule,
+    PostsModule,
+    PostsRoutingModule,
     FeaturesModule,
     ToastrModule.forRoot()
   ],
