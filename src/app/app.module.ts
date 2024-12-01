@@ -11,14 +11,11 @@ import { CoreModule } from './core/core.module';
 import { AuthModule } from './features/auth/auth.module';
 import { FeaturesModule } from './features/features.module';
 import {AuthInterceptor} from "./core/interceptors/auth.interceptor";
-import { LoginComponent } from './auth/login/login.component';
 import { ReactiveFormsModule } from '@angular/forms';
-import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
   declarations: [
-    AppComponent,
-    LoginComponent,
+    AppComponent
   ],
   imports: [
     BrowserModule,
@@ -29,8 +26,7 @@ import { ToastrModule } from 'ngx-toastr';
     SharedModule,
     AuthModule,
     CoreModule,
-    FeaturesModule,
-    ToastrModule.forRoot()
+    FeaturesModule
   ],
   /*providers: [
     {
