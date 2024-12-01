@@ -11,6 +11,7 @@ import { CoreModule } from './core/core.module';
 import { AuthModule } from './features/auth/auth.module';
 import { FeaturesModule } from './features/features.module';
 import {AuthInterceptor} from "./core/interceptors/auth.interceptor";
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import {AuthInterceptor} from "./core/interceptors/auth.interceptor";
   imports: [
     BrowserModule,
     AppRoutingModule,
-    HttpClientModule, // Add HttpClientModule here
+    HttpClientModule,
+    ReactiveFormsModule,// Add HttpClientModule here
     LayoutModule,
     SharedModule,
     AuthModule,

@@ -21,7 +21,11 @@
     "lib": [
       "ES2022",
       "dom"
-    ]
+    ],
+    "baseUrl": "src", // Agregado para manejar rutas más sencillas
+    "paths": {
+      "@core/*": ["app/core/*"] // Alias para acceder a la carpeta 'core'
+    }
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,
