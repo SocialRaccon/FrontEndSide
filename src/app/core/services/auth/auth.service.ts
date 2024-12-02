@@ -1,9 +1,9 @@
-import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { BehaviorSubject, Observable, throwError } from 'rxjs';
-import { map, catchError } from 'rxjs/operators';
-import { environment } from '../../../../environments/environment.development';
-import { User, UserDTO } from '../../../shared/models/user';
+import {Injectable} from '@angular/core';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {BehaviorSubject, Observable, throwError} from 'rxjs';
+import {map, catchError} from 'rxjs/operators';
+import {environment} from '../../../../environments/environment.development';
+import {User, UserDTO} from '../../../shared/models/user';
 
 @Injectable({
   providedIn: 'root'
@@ -18,56 +18,66 @@ export class AuthService {
     this.currentUser = this.currentUserSubject.asObservable();
   }
 
-  login(email: string, password: string): Observable<any> {
-    // Crear el token Basic Auth
+  login(email: string, password: string): Observable<UserDTO> {
     const token = btoa(`${email}:${password}`);
 
-    // Configurar headers
-    const headers = new HttpHeaders()
-      .set('Authorization', `Basic ${token}`)
-      .set('Content-Type', 'application/json');
+    const headers = new HttpHeaders({
+      'Authorization': `Basic ${token}`,
+      'Content-Type': 'application/json',
+      'Accept': 'application/json'
+    });
 
-    // Obtener datos del usuario actual usando el token
-    return this.http.get<UserDTO>(`${this.apiUrl}/users/current`, {
-      headers,
-      withCredentials: true
-    }).pipe(
+    return this.http.get<UserDTO>(
+      `${this.apiUrl}/users/current`,
+      {
+        headers: headers,
+        withCredentials: true,
+        observe: 'response'
+      },
+    ).pipe(
       map(response => {
-        const user: User = {
-          email,
-          token, // Guardamos el token Basic Auth para futuras peticiones
-          name: response.name,
-          lastName: response.lastName,
-          secondLastName: response.secondLastName,
-          controlNumber: response.controlNumber,
-          careerName: response.careerName
+        // Crear el objeto usuario con la respuesta
+        const user: UserDTO = {
+          email: email,
+          token: token,
+          idUser: response.body!.idUser,
+          name: response.body!.name,
+          lastName: response.body!.lastName,
+          secondLastName: response.body!.secondLastName,
+          controlNumber: response.body!.controlNumber,
+          careerName: response.body!.careerName
         };
-        localStorage.setItem('currentUser', JSON.stringify(user));
+
+        // Guardar en sessionStorage
+        const userToStore = {
+          ...user,
+        };
+        sessionStorage.setItem('currentUser', JSON.stringify(userToStore));
+
+        // Actualizar el BehaviorSubject
         this.currentUserSubject.next(user);
+
         return user;
       }),
       catchError(error => {
+        console.error('Error en login:', error);
         if (error.status === 0) {
-          return throwError(() => new Error('Error de conexión al servidor'));
+          return throwError(() => new Error('Error de conexión al servidor. Verifique que el servidor esté funcionando.'));
         } else if (error.status === 401) {
           return throwError(() => new Error('Credenciales inválidas'));
         }
-        return throwError(() => error);
+        return throwError(() => new Error('Error en el servidor. Por favor intente más tarde.'));
       })
     );
   }
 
   logout(): void {
-    localStorage.removeItem('currentUser');
+    sessionStorage.removeItem('currentUser');
     this.currentUserSubject.next(null);
-    // Logout en el servidor
-    this.http.post(`${this.apiUrl}/signout`, {}, {
-      withCredentials: true
-    }).subscribe();
   }
 
   private getUserFromStorage(): User | null {
-    const user = localStorage.getItem('currentUser');
+    const user = sessionStorage.getItem('currentUser');
     return user ? JSON.parse(user) : null;
   }
 
@@ -78,5 +88,4 @@ export class AuthService {
   isAuthenticated(): boolean {
     return !!this.currentUserValue;
   }
-
 }
