@@ -3,6 +3,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { environment } from '../../../environments/environment.development';
 import { Observable } from 'rxjs';
 import { ProfileDTO } from "../../shared/models/profile";
+import {catchError} from "rxjs/operators";
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +14,12 @@ export class ProfileService {
   constructor(private http: HttpClient) {}
 
   getProfile(id: number): Observable<ProfileDTO> {
-    return this.http.get<ProfileDTO>(`${this.url}/${id}`);
+    return this.http.get<ProfileDTO>(`${this.url}/${id}`).pipe(
+      catchError((error) => {
+        console.error('Error getting profile', error);
+        throw error;
+      })
+    );
   }
 
   addProfileImage(profileId: number, image: File): Observable<string> {

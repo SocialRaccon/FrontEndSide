@@ -20,7 +20,7 @@ export class ProfileComponent implements OnInit {
   public error: string | null = null;
   public userIdActive: number = 0;
   public userIdProfile: number = 0;
-  protected isUpdatingFollowStatus: boolean = false;
+  protected isUpdatingFollowStatus: boolean = true;
 
   constructor(
     private route: ActivatedRoute,
@@ -48,8 +48,8 @@ export class ProfileComponent implements OnInit {
         this.loadProfileByControlNumber(idOrControlNumber);
       }
     });
-
-    this.checkFollowStatus();
+    this.isUpdatingFollowStatus = false;
+    this.userIdActive === this.userIdProfile ? this.txtFollow = 'Edit profile' : this.checkFollowStatus();
   }
 
   private checkFollowStatus() {
@@ -84,9 +84,13 @@ export class ProfileComponent implements OnInit {
     this.profileService.getProfileByControlNumber(controlNumber).subscribe({
       next: (profile: ProfileDTO) => {
         this.profile = profile;
+        console.log('profile', profile);
         this.userIdProfile = profile.idProfile;
+        console.log('userIdProfile', this.userIdProfile);
         this.setCurrentProfileImage();
         this.isLoading = false;
+        this.userIdActive === this.userIdProfile ? this.txtFollow = 'Edit profile' : this.checkFollowStatus();
+
       },
       error: (error) => {
         this.handleProfileError(error);
@@ -117,10 +121,12 @@ export class ProfileComponent implements OnInit {
 
   follow() {
     if (this.isUpdatingFollowStatus) return;
-
+    if (this.txtFollow === 'Edit profile') {
+      // Redirigir a la página de edición de perfil
+      return;
+    }
     this.isUpdatingFollowStatus = true;
-    const isFollowing = this.txtFollow === 'Follow';
-
+    let isFollowing = this.txtFollow === 'Follow';
     const action$ = isFollowing
       ? this.relationshipService.follow(this.userIdActive, this.userIdProfile)
       : this.relationshipService.unfollow(this.userIdActive, this.userIdProfile);
