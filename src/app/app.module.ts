@@ -28,13 +28,13 @@ import { ReactiveFormsModule } from '@angular/forms';
     CoreModule,
     FeaturesModule
   ],
-  /*providers: [
+  providers: [
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,
       multi: true
     }
-  ],*/
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

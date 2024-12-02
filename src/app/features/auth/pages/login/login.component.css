@@ -1,66 +1,63 @@
-/* Centering the login form */
 .login-container {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
-  background: #f5f5f5;
-}
+  min-height: 100vh;
+  background-color: #f5f5f5;
 
-/* The form styling */
-.login-form {
-  background: #fff;
-  padding: 30px;
-  border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  width: 100%;
-  max-width: 400px;
-}
+  .login-form {
+    background: white;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    width: 100%;
+    max-width: 400px;
 
-/* Title of the login form */
-.login-form h2 {
-  text-align: center;
-  font-size: 24px;
-  margin-bottom: 20px;
-  color: #333;
-}
+    h2 {
+      text-align: center;
+      margin-bottom: 1.5rem;
+      color: #333;
+    }
 
-/* Form input fields styling */
-.login-form .form-control {
-  width: 100%;
-  padding: 12px;
-  margin: 10px 0;
-  border-radius: 5px;
-  border: 1px solid #ccc;
-  font-size: 16px;
-}
+    .form-group {
+      margin-bottom: 1rem;
+    }
 
-/* Styling for invalid inputs */
-.login-form .form-control.is-invalid {
-  border-color: red;
-}
+    .alert {
+      margin-bottom: 1rem;
+      padding: 0.75rem;
+      border-radius: 4px;
 
-/* Styling for the invalid feedback */
-.invalid-feedback {
-  color: red;
-  font-size: 14px;
-  margin-top: 5px;
-}
+      &.alert-danger {
+        background-color: #f8d7da;
+        border-color: #f5c6cb;
+        color: #721c24;
+      }
+    }
 
-/* Submit button styling */
-.login-form .btn-submit {
-  width: 100%;
-  padding: 12px;
-  background-color: #007bff;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  font-size: 16px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
+    .btn-submit {
+      width: 100%;
+      padding: 0.75rem;
+      background-color: #007bff;
+      border: none;
+      border-radius: 4px;
+      color: white;
+      font-weight: 500;
+      transition: background-color 0.2s;
 
-/* Submit button hover effect */
-.login-form .btn-submit:hover {
-  background-color: #0056b3;
+      &:disabled {
+        background-color: #6c757d;
+        cursor: not-allowed;
+      }
+
+      &:not(:disabled):hover {
+        background-color: #0056b3;
+      }
+    }
+
+    .spinner-border {
+      width: 1rem;
+      height: 1rem;
+    }
+  }
 }

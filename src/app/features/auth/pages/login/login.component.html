@@ -1,8 +1,12 @@
 <div class="login-container">
   <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="login-form">
-
     <!-- Title -->
     <h2>Login</h2>
+
+    <!-- Error Alert -->
+    <div *ngIf="error" class="alert alert-danger">
+      {{ error }}
+    </div>
 
     <!-- Email Input -->
     <div class="form-group">
@@ -11,7 +15,8 @@
         formControlName="email"
         class="form-control"
         [ngClass]="{ 'is-invalid': email?.touched && email?.invalid }"
-        placeholder="Correo Electrónico" />
+        placeholder="Correo Electrónico"
+        [attr.disabled]="loading ? '' : null"/>
 
       <div *ngIf="email?.touched && email?.invalid" class="invalid-feedback">
         <div *ngIf="email?.errors?.['required']">El correo electrónico es obligatorio.</div>
@@ -26,7 +31,8 @@
         formControlName="password"
         class="form-control"
         [ngClass]="{ 'is-invalid': password?.touched && password?.invalid }"
-        placeholder="Contraseña" />
+        placeholder="Contraseña"
+        [attr.disabled]="loading ? '' : null"/>
 
       <div *ngIf="password?.touched && password?.invalid" class="invalid-feedback">
         <div *ngIf="password?.errors?.['required']">La contraseña es obligatoria.</div>
@@ -35,8 +41,13 @@
 
     <!-- Submit Button -->
     <div class="form-group">
-      <button type="submit" [disabled]="loginForm.invalid" class="btn-submit">Entrar</button>
+      <button
+        type="submit"
+        [disabled]="loginForm.invalid || loading"
+        class="btn-submit">
+        <span *ngIf="loading" class="spinner-border spinner-border-sm me-1" role="status" aria-hidden="true"></span>
+        {{ loading ? 'Iniciando sesión...' : 'Entrar' }}
+      </button>
     </div>
-
   </form>
 </div>

@@ -1,1 +1,17 @@
-/* You can add global styles to this file, and also import other style files */
+
+.layout-container {
+  padding-top: 60px; /* Height of the header */
+}
+
+.main-content {
+  margin-left: 280px;
+  padding: 2rem;
+  min-height: calc(100vh - 60px - 100px); /* viewport height - header - footer */
+  background-color: #f7f9fa;
+}
+
+@media (max-width: 768px) {
+  .main-content {
+    margin-left: 0;
+  }
+}

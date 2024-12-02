@@ -1,12 +1,30 @@
 <header class="header">
-  <div class="container">
-    <h1>Social Raccoon</h1>
-    <nav>
-      <ul>
-        <li><a href="#">Inicio</a></li>
-        <li><a href="#">Acerca de</a></li>
-        <li><a href="#">Contacto</a></li>
-      </ul>
-    </nav>
+  <div class="header-left">
+    <div class="brand">
+      <img src="/assets/favicon.ico" alt="Logo" class="logo">
+      <span class="brand-name">Social Raccoon</span>
+    </div>
+    <div class="search-bar">
+      <i class="fas fa-search search-icon"></i>
+      <input type="text" placeholder="Search.......">
+    </div>
+  </div>
+
+  <div class="header-right">
+    <button class="icon-btn">
+      <i class="fas fa-bell"></i>
+      <span class="notification-badge">3</span>
+    </button>
+    <button class="icon-btn">
+      <i class="fas fa-envelope"></i>
+      <span class="notification-badge">5</span>
+    </button>
+    <div class="user-menu" (click)="toggleUserMenu()">
+      <img ngSrc="https://via.placeholder.com/32" alt="Profile" class="avatar">
+      <i class="fas fa-chevron-down"></i>
+    </div>
+    <button class="menu-toggle" (click)="toggleMenu()">
+      <i class="fas fa-bars"></i>
+    </button>
   </div>
 </header>
