@@ -11,6 +11,14 @@
   </div>
   <app-footer></app-footer>
 </div>
-<div *ngIf="!isAuthenticated">
-  <app-auth></app-auth>
+<div class="" [class.sidebar-open]="isSidebarOpen"  *ngIf="!isAuthenticated">
+  <div class="main-wrapper">
+    <main class="">
+      <div class="loading-spinner" *ngIf="isLoading | async">
+        <div class="spinner"></div>
+      </div>
+      <app-auth></app-auth>
+    </main>
+  </div>
+  <!--<app-footer></app-footer>-->
 </div>

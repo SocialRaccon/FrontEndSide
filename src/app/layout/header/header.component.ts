@@ -16,6 +16,7 @@ export class HeaderComponent implements OnInit {
   isUserMenuOpen = false;
   userid = this.authService.currentUserValue?.idUser;
   profileImage = "";
+  user = this.authService.currentUserValue;
 
   constructor() {
   }

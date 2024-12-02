@@ -53,6 +53,7 @@ export class ProfileComponent implements OnInit {
   }
 
   private checkFollowStatus() {
+    this.isLoading = true;
     this.relationshipService.getFollowing(this.userIdActive).subscribe({
       next: (following) => {
         this.txtFollow = following.some(f => f.idUser === this.userIdProfile) ? 'Unfollow' : 'Follow';
