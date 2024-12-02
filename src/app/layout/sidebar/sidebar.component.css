@@ -1,4 +1,3 @@
-
 .sidebar {
   width: 280px;
   height: 100vh;
@@ -7,12 +6,21 @@
   position: fixed;
   left: 0;
   top: 60px;
+  bottom: 0;
   padding: 1rem 0;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
   z-index: 900;
-  transition: all 0.3s ease;
+  transition: transform 0.3s ease;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.sidebar-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0; /* Añade esto */
 }
 
 .sidebar-nav {
@@ -35,7 +43,7 @@
 }
 
 .nav-item:hover {
-  background-color: rgba(255,255,255,0.1);
+  background-color: rgba(255, 255, 255, 0.1);
 }
 
 .nav-item i {
@@ -83,11 +91,12 @@
 .sidebar-footer {
   padding: 1rem;
   border-top: 1px solid rgba(255,255,255,0.1);
+  margin-top: auto; /* Añade esto */
 }
 
 .user-profile {
   display: flex;
-  align-items: center;
+  align-items: stretch;
   gap: 0.75rem;
   padding: 0.5rem;
   border-radius: 9999px;
@@ -96,7 +105,7 @@
 }
 
 .user-profile:hover {
-  background-color: rgba(255,255,255,0.1);
+  background-color: rgba(255, 255, 255, 0.1);
 }
 
 .avatar {
@@ -115,7 +124,7 @@
 }
 
 .handle {
-  color: rgba(255,255,255,0.6);
+  color: rgba(255, 255, 255, 0.6);
   font-size: 0.9rem;
 }
 
@@ -124,7 +133,7 @@
     transform: translateX(-100%);
   }
 
-  .sidebar.active {
+  .sidebar.open {
     transform: translateX(0);
   }
 }

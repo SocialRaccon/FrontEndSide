@@ -1,46 +1,46 @@
-<aside class="sidebar" [class.collapsed]="isCollapsed">
+<aside class="sidebar" [class.open]="isOpen">
   <div class="sidebar-content">
     <nav class="sidebar-nav">
       <a href="/feed" class="nav-item">
         <i class="fas fa-home"></i>
-        <span class="nav-text">Feed</span>
-      </a>
-      <a href="/explore" class="nav-item">
-        <i class="fas fa-compass"></i>
-        <span class="nav-text">Explore</span>
-      </a>
-      <a href="/notifications" class="nav-item">
-        <i class="fas fa-bell"></i>
-        <span class="nav-text">Notifications</span>
+        <span class="nav-text">Home</span>
         <span class="badge">3</span>
       </a>
-      <a href="/messages" class="nav-item">
-        <i class="fas fa-envelope"></i>
-        <span class="nav-text">Messages</span>
-        <span class="badge">5</span>
-      </a>
-      <a href="/bookmarks" class="nav-item">
-        <i class="fas fa-bookmark"></i>
-        <span class="nav-text">Bookmarks</span>
-      </a>
-      <a href="/profile" class="nav-item">
-        <i class="fas fa-user"></i>
-        <span class="nav-text">Profile</span>
-      </a>
+      <div class="user-profile">
+        <img src="https://via.placeholder.com/40" alt="Profile" class="avatar">
+        <div class="user-info">
+          <span class="username">John Doe</span>
+          <span class="handle">&#64;johndoe</span>
+        </div>
+      </div>
+      <div class="user-profile">
+        <img src="https://via.placeholder.com/40" alt="Profile" class="avatar">
+        <div class="user-info">
+          <span class="username">John Doe</span>
+          <span class="handle">&#64;johndoe</span>
+        </div>
+      </div>
+      <div class="user-profile">
+        <img src="https://via.placeholder.com/40" alt="Profile" class="avatar">
+        <div class="user-info">
+          <span class="username">John Doe</span>
+          <span class="handle">&#64;johndoe</span>
+        </div>
+      </div>
     </nav>
 
     <button class="compose-btn">
       <i class="fas fa-plus"></i>
       <span class="btn-text">Create Post</span>
     </button>
-  </div>
 
+  </div>
   <div class="sidebar-footer">
     <div class="user-profile">
-      <img src="https://via.placeholder.com/40" alt="Profile" class="avatar">
+      <img [src]="profileImage" alt="Profile" class="avatar">
       <div class="user-info">
-        <span class="username">John Doe</span>
-        <span class="handle">johndoe</span>
+        <span class="username">{{username}}</span>
+        <span class="handle">&#64;{{controlNumber}}</span>;
       </div>
     </div>
   </div>
