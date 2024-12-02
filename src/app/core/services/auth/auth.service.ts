@@ -1,20 +1,22 @@
-import {Injectable} from '@angular/core';
+import {inject, Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {BehaviorSubject, Observable, throwError} from 'rxjs';
 import {map, catchError} from 'rxjs/operators';
 import {environment} from '../../../../environments/environment.development';
 import {User, UserDTO} from '../../../shared/models/user';
+import {Router} from "@angular/router";
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
   private apiUrl = environment.apiUrl;
-  private currentUserSubject: BehaviorSubject<User | null>;
-  public currentUser: Observable<User | null>;
+  private currentUserSubject: BehaviorSubject<UserDTO | null>;
+  public currentUser: Observable<UserDTO | null>;
+  private router = inject(Router);
 
   constructor(private http: HttpClient) {
-    this.currentUserSubject = new BehaviorSubject<User | null>(this.getUserFromStorage());
+    this.currentUserSubject = new BehaviorSubject<UserDTO | null>(this.getUserFromStorage());
     this.currentUser = this.currentUserSubject.asObservable();
   }
 
@@ -27,8 +29,7 @@ export class AuthService {
       'Accept': 'application/json'
     });
 
-    return this.http.get<UserDTO>(
-      `${this.apiUrl}/users/current`,
+    return this.http.get<UserDTO>(`${this.apiUrl}/users/current`,
       {
         headers: headers,
         withCredentials: true,
@@ -74,14 +75,15 @@ export class AuthService {
   logout(): void {
     sessionStorage.removeItem('currentUser');
     this.currentUserSubject.next(null);
+    this.router.navigate(['/auth/login']);
   }
 
-  private getUserFromStorage(): User | null {
+  private getUserFromStorage(): UserDTO | null {
     const user = sessionStorage.getItem('currentUser');
     return user ? JSON.parse(user) : null;
   }
 
-  get currentUserValue(): User | null {
+  get currentUserValue(): UserDTO | null {
     return this.currentUserSubject.value;
   }
 

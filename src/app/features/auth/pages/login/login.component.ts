@@ -49,7 +49,9 @@ export class LoginComponent implements OnInit {
       this.authService.login(email, password).subscribe({
         next: (user) => {
           console.log('Usuario logueado:', user);
-          this.router.navigate(['/']); // o la ruta que desees
+          this.router.navigate(['/home']); // o la ruta que desees
+          //Reload page
+          window.location.reload();
         },
         error: (error) => {
           console.error('Error en login', error);

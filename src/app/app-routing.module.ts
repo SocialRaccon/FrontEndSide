@@ -9,11 +9,14 @@ const routes: Routes = [
   },
   {
     path: 'feed', loadChildren: () => import('./features/feed/feed.module')
-      .then(m => m.FeedModule)//, canActivate: [authGuard]
+      .then(m => m.FeedModule), canActivate: [authGuard]
   },
   {
     path: 'profile', loadChildren: () => import('./features/profile/profile.module')
-      .then(m => m.ProfileModule)
+      .then(m => m.ProfileModule), canActivate: [authGuard]
+  },
+  {
+    path: ' ', redirectTo: '', pathMatch: 'full'
   }
 ];
 

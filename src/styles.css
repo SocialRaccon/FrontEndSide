@@ -1,17 +1,10 @@
-
-.layout-container {
-  padding-top: 60px; /* Height of the header */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-.main-content {
-  margin-left: 280px;
-  padding: 2rem;
-  min-height: calc(100vh - 60px - 100px); /* viewport height - header - footer */
-  background-color: #f7f9fa;
-}
-
-@media (max-width: 768px) {
-  .main-content {
-    margin-left: 0;
-  }
+body {
+  overflow-x: hidden;
+  width: 100%;
 }
