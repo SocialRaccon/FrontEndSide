@@ -8,10 +8,6 @@
       </div>
     </div>
 
-    <!-- Error message -->
-    <div *ngIf="error" class="alert alert-danger mx-3">
-      {{ error }}
-    </div>
 
     <!-- Profile content -->
     <div *ngIf="profile && !isLoading" class="row justify-content-center">
@@ -45,8 +41,10 @@
               </div>
               <div class="col-xl-4 col-md-4 d-flex justify-content-lg-end justify-content-md-end justify-content-center">
                 <div class="follow">
-                  <a class="btn btn-shadow" (click)="follow()">
-                    <i class="la la-user-plus"></i>{{ txtFollow }}
+                  <a class="btn btn-shadow" (click)="follow()" [hidden]="isUpdatingFollowStatus">
+                    <i class="la la-user-plus"></i>
+                    <span *ngIf="!isUpdatingFollowStatus">{{ txtFollow }}</span>
+                    <span *ngIf="isUpdatingFollowStatus" class="spinner-border spinner-border-sm" role="status"></span>
                   </a>
                 </div>
               </div>
@@ -54,6 +52,11 @@
           </div>
         </div>
       </div>
+    </div>
+
+    <!-- Error message -->
+    <div *ngIf="error" class="alert alert-danger mx-3">
+      {{ error }}
     </div>
   </div>
 </div>
