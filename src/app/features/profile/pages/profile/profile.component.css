@@ -1,0 +1,296 @@
+body{
+  margin-top: 20px;
+  background: #eee;
+}
+
+/* Estilos del Jumbotron */
+.db-social .jumbotron {
+  margin: 0;
+  background: url(https://bootdey.com/img/Content/flores-amarillas-wallpaper.jpeg);
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+  background-position: bottom center;
+  color: #fff !important;
+  height: 300px;
+  position: relative;
+  box-shadow: inset 0 0 20px rgba(0,0,0,.3);
+  padding: 0;
+}
+
+.container-fluid {
+  padding: 30px 30px;
+}
+
+/* Estilos del perfil principal */
+.db-social .head-profile {
+  margin-top: -120px;
+  border-radius: 12px;
+  position: relative;
+}
+
+.widget {
+  background: #fff;
+  border-radius: 12px;
+  border: none;
+  margin-bottom: 30px;
+}
+
+.has-shadow {
+  box-shadow: 0 4px 20px rgba(44, 48, 77, 0.1);
+}
+
+/* Efectos decorativos del perfil */
+.db-social .head-profile:before {
+  content: "";
+  background: rgba(255,255,255,.6);
+  height: 20px;
+  width: 90%;
+  position: absolute;
+  top: -20px;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  border-radius: 12px 12px 0 0;
+}
+
+.db-social .head-profile:after {
+  content: "";
+  background: rgba(255,255,255,.3);
+  height: 20px;
+  width: 80%;
+  position: absolute;
+  top: -40px;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  border-radius: 12px 12px 0 0;
+}
+
+/* Estilos del contenido */
+.db-social .widget-body {
+  padding: 1rem 2rem;
+  background: #ffffff;
+}
+
+.widget-body {
+  padding: 1.4rem;
+  background: #fff;
+}
+
+.pb-0, .py-0 {
+  padding-bottom: 0 !important;
+}
+
+/* Estilos de la imagen de perfil */
+.db-social .image-default img {
+  width: 120px;
+  height: 120px;
+  position: absolute;
+  top: -80px;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  box-shadow: 0 0 0 6px rgba(255,255,255,1);
+  z-index: 10;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+/* Información del perfil */
+.db-social .infos {
+  text-align: center;
+  margin-top: 4rem;
+  margin-bottom: 1rem;
+  line-height: 1.8rem;
+}
+
+.db-social h2 {
+  color: #2c304d;
+  font-size: 1.6rem;
+  font-weight: 600;
+  margin-bottom: .2rem;
+}
+
+.db-social .location {
+  color: #aea9c3;
+  font-size: 1rem;
+}
+
+/* Estilos del botón */
+.db-social .follow .btn {
+  padding: 10px 30px;
+  transition: all 0.3s ease;
+}
+
+.btn:not(:disabled):not(.disabled) {
+  cursor: pointer;
+}
+
+.btn-shadow, .btn-shadow a {
+  color: #fff;
+  background-color: #2c304d;
+  border: none;
+  box-shadow: 0 4px 15px rgba(44, 48, 77, 0.15);
+}
+
+.btn-shadow:hover {
+  background: #383d63;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 15px rgba(44, 48, 77, 0.2);
+  color: #fff;
+}
+
+/* Estilos de las estadísticas */
+.db-social .head-profile ul {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.db-social .head-profile li {
+  text-align: center;
+  padding: 0 1rem;
+  transition: all 0.3s ease;
+}
+
+.db-social .head-profile li .counter {
+  color: #2c304d;
+  font-size: 1.4rem;
+  font-weight: 600;
+}
+.follow-stats {
+  display: flex;
+  justify-content: center; /* Centrar horizontalmente */
+  align-items: center; /* Asegurar que estén a la misma altura vertical */
+  gap: 20px; /* Espacio entre los elementos */
+  margin-bottom: 20px;
+}
+/* Estilo para cada elemento (Seguidos y Seguidores) */
+.follow-stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 1rem;
+  text-align: center;
+}
+
+.follow-stat .number {
+  font-weight: bold;
+  font-size: 1.5rem;
+  color: #000;
+}
+.db-social .head-profile li .heading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 1rem;
+  text-align: center;
+}
+
+/* Contenedor para los posts */
+.posts-container {
+  margin-top: 2rem;
+  padding: 0 1rem;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(44, 48, 77, 0.1);
+}
+
+/* Media Queries */
+@media (max-width: 1024px) {
+  .container-fluid {
+    padding: 15px;
+  }
+
+  .db-social .jumbotron {
+    height: 250px;
+  }
+
+  .db-social .head-profile {
+    margin-top: -100px;
+  }
+
+  .row.d-flex.align-items-center {
+    flex-direction: column;
+  }
+
+  .col-xl-4.col-md-4,
+  .col-xl-4.col-md-5 {
+    width: 100%;
+    margin-bottom: 1.5rem;
+    display: flex;
+    justify-content: center;
+  }
+
+  .db-social .head-profile ul {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .db-social .jumbotron {
+    height: 220px;
+  }
+
+  .db-social .image-default img {
+    width: 100px;
+    height: 100px;
+    top: -60px;
+  }
+
+  .db-social .infos {
+    margin-top: 3rem;
+  }
+
+  .db-social .head-profile li {
+    min-width: 80px;
+  }
+
+  .follow .btn {
+    min-width: 200px;
+  }
+}
+
+@media (max-width: 576px) {
+  .db-social .jumbotron {
+    height: 180px;
+  }
+
+  .db-social .head-profile {
+    margin-top: -60px;
+    padding: 15px;
+  }
+
+  .db-social .image-default img {
+    width: 90px;
+    height: 90px;
+    top: -45px;
+  }
+
+  .db-social .infos {
+    margin-top: 2.5rem;
+  }
+
+  .db-social h2 {
+    font-size: 1.3rem;
+  }
+
+  .db-social .head-profile li .counter {
+    font-size: 1.2rem;
+  }
+
+  .db-social .head-profile li .heading {
+    font-size: 0.9rem;
+  }
+
+  .follow .btn {
+    width: 100%;
+    padding: 8px 20px;
+  }
+}

@@ -15,9 +15,10 @@
         <div class="widget head-profile has-shadow">
           <div class="widget-body pb-0">
             <div class="row d-flex align-items-center">
-              <div class="col-xl-4 col-md-4 d-flex justify-content-lg-start justify-content-md-start justify-content-center">
+              <div
+                class="col-xl-4 col-md-4 d-flex justify-content-lg-start justify-content-md-start justify-content-center">
                 <ul>
-                  <li class="py-5">
+                  <li>
                     <div class="counter">{{ profile.followersCount }}</div>
                     <div class="heading">Seguidores</div>
                   </li>
@@ -39,7 +40,8 @@
                   <div class="location">{{ profile.description }}</div>
                 </div>
               </div>
-              <div class="col-xl-4 col-md-4 d-flex justify-content-lg-end justify-content-md-end justify-content-center">
+              <div
+                class="col-xl-4 col-md-4 d-flex justify-content-lg-end justify-content-md-end justify-content-center">
                 <div class="follow">
                   <a class="btn btn-shadow" (click)="follow()" [hidden]="isUpdatingFollowStatus">
                     <i class="la la-user-plus"></i>
