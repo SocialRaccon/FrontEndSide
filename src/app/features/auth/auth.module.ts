@@ -13,6 +13,9 @@ import { AuthComponent } from './auth.component';
     RegisterComponent,
     AuthComponent
   ],
+  exports: [
+    AuthComponent
+  ],
   imports: [
     CommonModule,
     AuthRoutingModule,

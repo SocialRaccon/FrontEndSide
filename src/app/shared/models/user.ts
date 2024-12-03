@@ -11,9 +11,12 @@ export interface User {
 }
 
 export interface UserDTO {
+  idUser: number;
   name: string;
   lastName: string;
   secondLastName: string;
   controlNumber: string;
   careerName: string;
+  email: string;
+  token: string;
 }

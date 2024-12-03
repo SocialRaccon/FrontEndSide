@@ -1,1 +1,48 @@
-<p>sidebar works!</p>
+<!-- sidebar.component.html -->
+<aside class="sidebar" [class.open]="isOpen">
+  <div class="sidebar-wrapper">
+    <!-- Fixed top section -->
+    <div class="sidebar-top">
+      <nav class="sidebar-nav">
+        <a href="/feed" class="nav-item">
+          <i class="fas fa-home"></i>
+          <span class="nav-text">Home</span>
+          <span class="badge">3</span>
+        </a>
+        <a class="nav-item">
+          <i class="fas fa-users"></i>
+          <span class="nav-text">Siguiendo</span>
+        </a>
+      </nav>
+    </div>
+
+    <!-- Scrollable profiles section -->
+    <div class="profiles-container">
+      <div class="user-profile" *ngFor="let profile of profilesFollowing"
+           [routerLink]="['/profile', profile.idUser]">
+        <img [src]="profile.images.at(0)?.imageThumbnailUrl" alt="Profile" class="avatar">
+        <div class="user-info">
+          <span class="username">{{ profile.userName }}</span>
+          <span class="handle">{{ profile.careerAcronym }} | {{profile.controlNumber}}</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Fixed bottom section -->
+    <div class="sidebar-bottom">
+      <button class="compose-btn">
+        <i class="fas fa-plus"></i>
+        <span class="btn-text">Create Post</span>
+      </button>
+      <div class="sidebar-footer">
+        <div class="user-profile">
+          <img [src]="profileImage" alt="Profile" class="avatar">
+          <div class="user-info">
+            <span class="username">{{ username }}</span>
+            <span class="handle">&#64;{{ controlNumber }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</aside>
