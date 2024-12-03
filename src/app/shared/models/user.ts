@@ -20,3 +20,14 @@ export interface UserDTO {
   email: string;
   token: string;
 }
+
+export interface UserRequestDTO {
+  userId: number;
+  name: string;
+  lastName: string;
+  secondLastName: string;
+  email: string;
+  controlNumber: string;
+  password: string;
+  career: number;
+}

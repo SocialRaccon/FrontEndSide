@@ -5,6 +5,7 @@ import {map, catchError} from 'rxjs/operators';
 import {environment} from '../../../../environments/environment.development';
 import {User, UserDTO} from '../../../shared/models/user';
 import {Router} from "@angular/router";
+import {AuthenticationDTO, PasswordRecoveryDTO} from "../../../shared/models/authentication";
 
 @Injectable({
   providedIn: 'root'
@@ -76,6 +77,48 @@ export class AuthService {
     sessionStorage.removeItem('currentUser');
     this.currentUserSubject.next(null);
     this.router.navigate(['/auth/login']);
+  }
+
+  //Ejemplo de uso:
+  /*
+  recoverPassword(email: string): void {
+  const data: PasswordRecoveryDTO = { email };
+  this.authService.recoverPassword(data).subscribe({
+    next: response => console.log('Correo de recuperación enviado:', response),
+    error: err => console.error(err.message)
+  });
+  }
+   */
+
+  // Recuperar contraseña
+  recoverPassword(data: PasswordRecoveryDTO): Observable<string> {
+    return this.http.post<string>(`${this.apiUrl}/authentications/recover`, data).pipe(
+      catchError(error => {
+        console.error('Error en recoverPassword:', error);
+        return throwError(() => new Error('No se pudo enviar el correo de recuperación. Intente nuevamente.'));
+      })
+    );
+  }
+
+  //Ejemplo de uso:
+  /*
+  changePassword(email: string, oldPassword: string, newPassword: string): void {
+  const data: AuthenticationDTO = { email, password: oldPassword, newPassword };
+  this.authService.changePassword(data).subscribe({
+    next: response => console.log('Contraseña cambiada exitosamente:', response),
+    error: err => console.error(err.message)
+  });
+  }
+  */
+
+  // Cambiar contraseña
+  changePassword(data: AuthenticationDTO): Observable<string> {
+    return this.http.put<string>(`${this.apiUrl}/authentications/change`, data).pipe(
+      catchError(error => {
+        console.error('Error en changePassword:', error);
+        return throwError(() => new Error('No se pudo cambiar la contraseña. Intente nuevamente.'));
+      })
+    );
   }
 
   private getUserFromStorage(): UserDTO | null {

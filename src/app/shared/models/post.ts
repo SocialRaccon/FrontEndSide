@@ -1,6 +1,7 @@
 import {ImagePostModel} from "./image-post";
 import {CommentDTO} from "./comment";
 import {ReactionDTO} from "./reaction";
+import {ImageProfileModel} from "./image-profile";
 
 export interface PostDTO {
   post: number;
@@ -11,6 +12,7 @@ export interface PostDTO {
   userSecondLastName: string;
   userControlNumber: string;
   postDescription: string;
+  imageProfile: ImageProfileModel;
   comments: CommentDTO[];
   reactions: ReactionDTO[];
   images: ImagePostModel[];

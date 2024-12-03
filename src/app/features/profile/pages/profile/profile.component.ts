@@ -6,6 +6,9 @@ import {ProfileService} from "@core/services/profile.service";
 import {RelationshipService} from "@core/services/relationship.service";
 import {UserDTO} from "../../../../shared/models/user";
 import {finalize} from 'rxjs/operators';
+import {PostService} from '@core/services/post.service';
+import {AuthService} from '@core/services/auth/auth.service';
+import {PostDTO} from 'app/shared/models/post';
 
 @Component({
   selector: 'app-profile',
@@ -21,12 +24,19 @@ export class ProfileComponent implements OnInit {
   public userIdActive: number = 0;
   public userIdProfile: number = 0;
   protected isUpdatingFollowStatus: boolean = true;
+  posts: PostDTO[] = [];
+  currentPage = 0;
+  pageSize = 10;
+  loading = false;
 
   constructor(
     private route: ActivatedRoute,
     private profileService: ProfileService,
-    private relationshipService: RelationshipService
+    private relationshipService: RelationshipService,
+    private postService: PostService,
+    protected authService: AuthService
   ) {
+    // ... código existente ...
   }
 
   ngOnInit() {
@@ -48,6 +58,7 @@ export class ProfileComponent implements OnInit {
       }
     });
     this.isUpdatingFollowStatus = false;
+
   }
 
   private checkFollowStatus() {
@@ -77,11 +88,50 @@ export class ProfileComponent implements OnInit {
         this.userIdProfile = this.profile?.idProfile || 0;
         this.isLoading = false;
         this.userIdActive === this.userIdProfile ? this.txtFollow = 'Edit profile' : this.checkFollowStatus();
+        this.loadPosts();
       },
       error: (error) => {
         this.handleProfileError(error);
       }
     });
+  }
+
+  private loadPosts() {
+    this.loading = true;
+    this.postService.getPostsByUserId(this.userIdProfile, this.currentPage, this.pageSize).subscribe({
+      next: (posts) => {
+        this.posts = posts;
+        this.loading = false;
+      },
+      error: (error) => {
+        if (error.status === 404) {
+          this.error = 'No se encontraron posts';
+        } else {
+          this.error = 'Error al cargar los posts';
+        }
+        this.loading = false;
+      }
+    });
+  }
+
+  protected onPostCreated(post: PostDTO) {
+    this.posts.unshift(post);
+  }
+
+  protected onDeletePost(postId: number) {
+    this.postService.deletePost(postId).subscribe({
+      next: () => {
+        this.posts = this.posts.filter(post => post.post !== postId);
+      },
+      error: (error) => {
+        console.error('Error deleting post:', error);
+      }
+    });
+  }
+
+  protected loadMorePosts() {
+    this.currentPage++;
+    this.loadPosts();
   }
 
   private loadProfileByControlNumber(controlNumber: string) {
@@ -97,6 +147,7 @@ export class ProfileComponent implements OnInit {
         this.userIdProfile = this.profile?.idProfile || 0;
         this.isLoading = false;
         this.userIdActive === this.userIdProfile ? this.txtFollow = 'Edit profile' : this.checkFollowStatus();
+        this.loadPosts();
       },
       error: (error) => {
         this.handleProfileError(error);

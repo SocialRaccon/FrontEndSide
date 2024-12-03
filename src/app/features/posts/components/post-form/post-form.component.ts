@@ -15,8 +15,8 @@ export class PostFormComponent implements OnInit {
   constructor(private fb: FormBuilder) {
     // Inicializa postForm en el constructor
     this.postForm = this.fb.group({
-      title: ['', [Validators.required, Validators.minLength(3)]],
-      content: ['', [Validators.required, Validators.minLength(10)]],
+      title: ['', [Validators.required, Validators.minLength(5)]],
+      content: ['', [Validators.required, Validators.minLength(10)]]
     });
   }
 

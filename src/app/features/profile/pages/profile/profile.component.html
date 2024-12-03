@@ -54,6 +54,33 @@
           </div>
         </div>
       </div>
+      <div class="container">
+        <!-- Mostrar CreatePost solo si es el perfil del usuario actual -->
+        <app-create-post
+          *ngIf="userIdActive === userIdProfile"
+          (postCreated)="onPostCreated($event)">
+        </app-create-post>
+
+        <!-- Lista de posts -->
+        <div class="posts-container">
+          <app-post-card
+            *ngFor="let post of posts"
+            [post]="post"
+            [currentUser]="authService.currentUserValue"
+            (deletePost)="onDeletePost($event)">
+          </app-post-card>
+
+          <!-- Botón para cargar más posts -->
+          <div class="text-center mt-3 mb-3" *ngIf="posts.length > 0">
+            <button
+              class="btn btn-primary"
+              (click)="loadMorePosts()"
+              [disabled]="loading">
+              {{ loading ? 'Cargando...' : 'Cargar más' }}
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
 
     <!-- Error message -->

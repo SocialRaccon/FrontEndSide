@@ -7,3 +7,15 @@ export interface ReactionDTO {
   reactionName: string;
   reactionIcon: string;
 }
+
+export interface ReactionTypeDTO {
+  idReactionType: number;
+  name: string;
+  reactionIcon: ReactionIconDTO;
+}
+
+export interface ReactionIconDTO {
+  iconUrl: string;
+  iconThumbnailUrl: string;
+  idReactionIcon: number;
+}
