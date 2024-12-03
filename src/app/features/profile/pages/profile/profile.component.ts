@@ -42,14 +42,12 @@ export class ProfileComponent implements OnInit {
     this.route.params.subscribe(params => {
       const idOrControlNumber = params['id'];
       if (/^\d+$/.test(idOrControlNumber)) {
-        this.userIdProfile = parseInt(idOrControlNumber);
         this.loadProfileById(parseInt(idOrControlNumber));
       } else {
         this.loadProfileByControlNumber(idOrControlNumber);
       }
     });
     this.isUpdatingFollowStatus = false;
-    this.userIdActive === this.userIdProfile ? this.txtFollow = 'Edit profile' : this.checkFollowStatus();
   }
 
   private checkFollowStatus() {
@@ -73,6 +71,12 @@ export class ProfileComponent implements OnInit {
         this.profile = profile;
         this.setCurrentProfileImage();
         this.isLoading = false;
+      }
+      ,
+      complete: () => {
+        this.userIdProfile = this.profile?.idProfile || 0;
+        this.isLoading = false;
+        this.userIdActive === this.userIdProfile ? this.txtFollow = 'Edit profile' : this.checkFollowStatus();
       },
       error: (error) => {
         this.handleProfileError(error);
@@ -85,13 +89,14 @@ export class ProfileComponent implements OnInit {
     this.profileService.getProfileByControlNumber(controlNumber).subscribe({
       next: (profile: ProfileDTO) => {
         this.profile = profile;
-        console.log('profile', profile);
-        this.userIdProfile = profile.idProfile;
-        console.log('userIdProfile', this.userIdProfile);
+        this.userIdProfile = this.profile?.idProfile;
         this.setCurrentProfileImage();
         this.isLoading = false;
+      },
+      complete: () => {
+        this.userIdProfile = this.profile?.idProfile || 0;
+        this.isLoading = false;
         this.userIdActive === this.userIdProfile ? this.txtFollow = 'Edit profile' : this.checkFollowStatus();
-
       },
       error: (error) => {
         this.handleProfileError(error);
