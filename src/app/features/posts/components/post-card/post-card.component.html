@@ -1,12 +1,12 @@
-<!-- post-card.component.html -->
 <div class="post-card">
+  <!-- Header del post -->
   <div class="post-card-header">
     <div class="user-info">
-      <img [src]="post.imageProfile.imageThumbnailUrl"
+      <img [src]="post.imageProfile.imageThumbnailUrl || 'assets/default-avatar.png'"
            alt="Profile picture"
            class="profile-picture">
       <div class="user-details">
-        <h3>{{post.userName}} {{ post.userLastName }} {{ post.userSecondLastName }}</h3>
+        <h3>{{ post.userName }} {{ post.userLastName }} {{ post.userSecondLastName }}</h3>
         <span class="author">&#64;{{ post.userControlNumber }}</span>
         <span class="date">{{ formatTimeAgo(post.dateCreated) }}</span>
       </div>
@@ -18,6 +18,7 @@
     </button>
   </div>
 
+  <!-- Contenido del post -->
   <div class="post-card-body">
     <p>{{ post.postDescription }}</p>
     <div class="post-images" *ngIf="post.images?.length">
@@ -28,82 +29,119 @@
     </div>
   </div>
 
+  <!-- Footer del post -->
   <div class="post-card-footer">
     <div class="reactions-section">
-      <!-- Contador y preview de reacciones -->
-      <div class="reaction-stats" *ngIf="reactionCount > 0">
-        <div class="reaction-icons">
-          <img *ngFor="let type of [1,2,3,4]"
-               [src]="REACTION_ICONS[type]"
-               [alt]="REACTION_NAMES[type]"
-               class="reaction-icon-small">
+      <!-- Reaction Summary -->
+      @if (hasReactions()) {
+        <div class="reaction-summary"
+             (mouseenter)="showReactionDetails = true"
+             (mouseleave)="showReactionDetails = false">
+          <div class="reaction-icons-stack">
+            @for (reactionType of getTopThreeReactions(); track reactionType) {
+              <img [src]="REACTION_ICONS[reactionType]"
+                   [alt]="REACTION_NAMES[reactionType]"
+                   class="reaction-icon-small">
+            }
+          </div>
+          <span class="reaction-count">{{reactionCount}}</span>
+
+          <!-- Reaction Details Popup -->
+          @if (showReactionDetails) {
+            <div class="reaction-details-popup">
+              @for (type of [1, 2, 3, 4]; track type) {
+                @if (getReactionCountByType(type) > 0) {
+                  <div class="reaction-detail-item">
+                    <img [src]="REACTION_ICONS[type]"
+                         [alt]="REACTION_NAMES[type]"
+                         class="reaction-icon-medium">
+                    <span class="reaction-name">{{REACTION_NAMES[type]}}</span>
+                    <span class="reaction-type-count">{{getReactionCountByType(type)}}</span>
+                  </div>
+                }
+              }
+            </div>
+          }
         </div>
-        <span>{{ reactionCount }}</span>
-      </div>
+      }
 
-      <!-- Botones de reacción -->
-      <div class="reaction-buttons">
-        <button class="btn-reaction"
-                [class.active]="userReaction !== null"
-                (click)="showReactionPicker = !showReactionPicker">
-          <img *ngIf="userReaction"
-               [src]="REACTION_ICONS[userReaction]"
-               class="reaction-icon-small"
-               [alt]="REACTION_NAMES[userReaction]">
-          <i *ngIf="!userReaction" class="far fa-thumbs-up"></i>
-          {{ userReaction ? REACTION_NAMES[userReaction] : 'Reaccionar' }}
-        </button>
-
-        <!-- Selector de reacciones -->
-        <div class="reaction-picker" *ngIf="showReactionPicker">
-          <button *ngFor="let id of [1,2,3,4] as numbers"
-                  class="reaction-option"
-                  (click)="onReact(id)"
-                  [title]="REACTION_NAMES[id]">
-            <img [src]="REACTION_ICONS[id]"
-                 [alt]="REACTION_NAMES[id]">
+      <!-- Reaction Actions -->
+      <div class="reaction-actions">
+        <div class="reaction-button-container">
+          <button class="reaction-button"
+                  [class.active]="userReaction !== null"
+                  (click)="showReactionPicker = !showReactionPicker"
+                  [disabled]="isLoadingReactions">
+            @if (isLoadingReactions) {
+              <div class="loading-spinner"></div>
+            } @else if (userReaction) {
+              <img [src]="REACTION_ICONS[userReaction]"
+                   [alt]="REACTION_NAMES[userReaction]"
+                   class="reaction-icon-small">
+              <span>{{REACTION_NAMES[userReaction]}}</span>
+            } @else {
+              <i class="far fa-thumbs-up"></i>
+              <span>Reaccionar</span>
+            }
           </button>
+
+          <!-- Reaction Picker -->
+          @if (showReactionPicker) {
+            <div class="reaction-picker">
+              @for (type of [1, 2, 3, 4]; track type) {
+                <button class="reaction-option"
+                        [class.active]="userReaction === type"
+                        (click)="onReact(type)"
+                        [title]="REACTION_NAMES[type]">
+                  <img [src]="REACTION_ICONS[type]"
+                       [alt]="REACTION_NAMES[type]">
+                </button>
+              }
+            </div>
+          }
         </div>
+
+        <!-- Comment button -->
+        <button class="comment-button" (click)="showComments = !showComments">
+          <i class="far fa-comment"></i>
+          <span>Comentarios ({{comments.length}})</span>
+        </button>
       </div>
     </div>
 
     <!-- Sección de comentarios -->
-    <div class="comments-section">
-      <button class="btn-comment" (click)="showComments = !showComments">
-        <i class="far fa-comment"></i>
-        Comentarios ({{ comments.length }})
-      </button>
+    <div class="comments-section" *ngIf="showComments">
+      <!-- Formulario de nuevo comentario -->
+      <div class="comment-form" *ngIf="currentUser">
+        <img [src]="currentUser.imageProfile.imageThumbnailUrl || 'assets/default-avatar.png'"
+             alt="User avatar"
+             class="profile-picture">
+        <textarea class="comment-input"
+                  [(ngModel)]="newComment"
+                  placeholder="Escribe un comentario..."
+                  (keyup.enter)="submitComment()"></textarea>
+        <button class="btn btn-primary"
+                (click)="submitComment()"
+                [disabled]="!newComment.trim()">
+          <i class="fas fa-paper-plane"></i>
+        </button>
+      </div>
 
-      <div class="comments-container" *ngIf="showComments">
-        <!-- Formulario de nuevo comentario -->
-        <div class="comment-form" *ngIf="currentUser">
-          <textarea class="comment-input"
-                    [(ngModel)]="newComment"
-                    placeholder="Escribe un comentario..."
-                    (keyup.enter)="submitComment()"></textarea>
-          <button class="btn btn-primary"
-                  (click)="submitComment()"
-                  [disabled]="!newComment.trim()">
-            <i class="fas fa-paper-plane"></i>
-          </button>
-        </div>
-
-        <!-- Lista de comentarios -->
-        <div class="comment-list">
-          <div class="comment-item" *ngFor="let comment of comments">
-            <img [src]="comment.imageProfile.imageThumbnailUrl || 'assets/default-avatar.png'"
-                 alt="Commenter picture"
-                 class="profile-picture">
-            <div class="comment-content">
-              <span class="comment-user">{{ comment.username }}</span>
-              {{ comment.comment }}
-              <div class="comment-actions">
-                <span>{{ formatTimeAgo(comment.date) }}</span>
-                <button class="comment-action" *ngIf="canDeleteComment(comment)"
-                        (click)="deleteComment(comment.idComment)">
-                  Eliminar
-                </button>
-              </div>
+      <!-- Lista de comentarios -->
+      <div class="comment-list">
+        <div class="comment-item" *ngFor="let comment of comments">
+          <img [src]="comment.imageProfile.imageThumbnailUrl || 'assets/default-avatar.png'"
+               alt="Commenter picture"
+               class="profile-picture">
+          <div class="comment-content">
+            <span class="comment-user">{{ comment.username }}</span>
+            {{ comment.comment }}
+            <div class="comment-actions">
+              <span>{{ formatTimeAgo(comment.date) }}</span>
+              <button class="comment-action" *ngIf="canDeleteComment(comment)"
+                      (click)="deleteComment(comment.idComment)">
+                Eliminar
+              </button>
             </div>
           </div>
         </div>

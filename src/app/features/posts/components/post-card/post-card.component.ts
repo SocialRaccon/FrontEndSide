@@ -1,12 +1,11 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {PostDTO} from "../../../../shared/models/post";
-import {UserDTO} from "../../../../shared/models/user";
+import {CurrentUserDTO, UserDTO} from "../../../../shared/models/user";
 import {CommentDTO} from 'app/shared/models/comment';
-import {ReactionDTO, ReactionTypeDTO} from 'app/shared/models/reaction';
+import {ReactionDTO} from 'app/shared/models/reaction';
 import {ReactionService} from '@core/services/reaction.service';
 import {CommentService} from '@core/services/comment.service';
 import {map} from "rxjs/operators";
-import {Observable} from "rxjs";
 
 @Component({
   selector: 'app-post-card',
@@ -15,7 +14,7 @@ import {Observable} from "rxjs";
 })
 export class PostCardComponent implements OnInit {
   @Input() post!: PostDTO;
-  @Input() currentUser!: UserDTO | null;
+  @Input() currentUser!: CurrentUserDTO | null;
   @Output() deletePost = new EventEmitter<number>();
 
   comments: CommentDTO[] = [];
@@ -25,6 +24,8 @@ export class PostCardComponent implements OnInit {
   reactionCount = 0;
   userReaction: number | null = null;
   showReactionPicker = false;
+  showReactionDetails = false;
+  isLoadingReactions = false;
 
   // Mapeo de reacciones a URLs
   readonly REACTION_ICONS: { [key: number]: string } = {
@@ -34,7 +35,7 @@ export class PostCardComponent implements OnInit {
     4: 'https://firebasestorage.googleapis.com/v0/b/socialraccoon-990a3.appspot.com/o/MeEnmapaSad.png?alt=media&token=76eba7e7-01f0-47e9-956d-1e7814655dc7'
   };
 
-  readonly REACTION_NAMES : { [key: number]: string } = {
+  readonly REACTION_NAMES: { [key: number]: string } = {
     1: 'Me Enmapa Like',
     2: 'Me Enmapa Love',
     3: 'Me Enmapa Cha',
@@ -48,19 +49,33 @@ export class PostCardComponent implements OnInit {
   }
 
   private loadReactions() {
-    this.reactionService.getReactionsByPostId(this.post.post!).subscribe(reactions => {
-      this.reactions = reactions;
-      this.reactionCount = reactions.length;
-      this.userReaction = reactions.find(r => r.idUser === this.currentUser?.idUser)?.idReactionType || null;
+    if (!this.post.post) return;
+
+    this.isLoadingReactions = true;
+    this.reactionService.getReactionsByPostId(this.post.post).subscribe({
+      next: (reactions) => {
+        this.reactions = reactions;
+        this.reactionCount = reactions.length;
+        this.userReaction = reactions.find(r => r.idUser === this.currentUser?.idUser)?.idReactionType || null;
+        this.isLoadingReactions = false;
+      },
+      error: (error) => {
+        console.error('Error loading reactions:', error);
+        this.isLoadingReactions = false;
+      }
     });
   }
 
   private loadComments() {
-    if (this.post.post) {
-      this.commentService.getCommentsByPostId(this.post.post).subscribe(comments => {
+    if (!this.post.post) return;
+    this.commentService.getCommentsByPostId(this.post.post).subscribe({
+      next: (comments) => {
         this.comments = comments;
-      });
-    }
+      },
+      error: (error) => {
+        console.error('Error loading comments:', error);
+      }
+    });
   }
 
   onReact(reactionTypeId: number) {
@@ -68,16 +83,26 @@ export class PostCardComponent implements OnInit {
 
     if (this.userReaction === reactionTypeId) {
       // Remove reaction
-      this.reactionService.deleteReaction(this.post.post, this.currentUser.idUser).subscribe(() => {
-        this.userReaction = null;
-        this.loadReactions();
+      this.reactionService.deleteReaction(this.post.post, this.currentUser.idUser).subscribe({
+        next: () => {
+          this.userReaction = null;
+          this.loadReactions();
+        },
+        error: (error) => {
+          console.error('Error removing reaction:', error);
+        }
       });
     } else {
       // Add or update reaction
-      this.reactionService.reactOrUpdate(this.post.post!, this.currentUser.idUser, reactionTypeId)
-        .subscribe(() => {
-          this.userReaction = reactionTypeId;
-          this.loadReactions();
+      this.reactionService.reactOrUpdate(this.post.post, this.currentUser.idUser, reactionTypeId)
+        .subscribe({
+          next: () => {
+            this.userReaction = reactionTypeId;
+            this.loadReactions();
+          },
+          error: (error) => {
+            console.error('Error adding/updating reaction:', error);
+          }
         });
     }
     this.showReactionPicker = false;
@@ -139,5 +164,26 @@ export class PostCardComponent implements OnInit {
     this.commentService.delete(idComment).subscribe(() => {
       this.loadComments();
     });
+  }
+
+  getReactionCountByType(type: number): number {
+    return this.reactions.filter(r => r.idReactionType === type).length;
+  }
+
+  getTopThreeReactions(): number[] {
+    const reactionCounts = new Map<number, number>();
+    this.reactions.forEach(reaction => {
+      const count = reactionCounts.get(reaction.idReactionType) || 0;
+      reactionCounts.set(reaction.idReactionType, count + 1);
+    });
+
+    return Array.from(reactionCounts.entries())
+      .sort((a, b) => b[1] - a[1])
+      .slice(0, 3)
+      .map(entry => entry[0]);
+  }
+
+  hasReactions(): boolean {
+    return this.reactions.length > 0;
   }
 }

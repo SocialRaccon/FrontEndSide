@@ -27,7 +27,6 @@ export class PostFormComponent implements OnInit {
   onSubmit(): void {
     if (this.postForm.valid) {
       console.log('Formulario enviado', this.postForm.value);
-
     }
   }
 }

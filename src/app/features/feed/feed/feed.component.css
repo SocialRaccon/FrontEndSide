@@ -1,150 +1,40 @@
-/* src/app/features/feed/feed.component.css */
-
-/* Contenedor del formulario de publicaciones */
-.post-form-container {
-  max-width: 500px;
-  margin: 20px auto;
-  padding: 20px;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  background-color: #f9f9f9;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-textarea {
-  width: 100%;
-  padding: 12px;
-  margin-bottom: 10px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  font-size: 14px;
-  resize: none;
-}
-
-input[type="file"] {
-  display: block;
-  margin-bottom: 15px;
-  font-size: 14px;
-}
-
-button {
-  background-color: #007bff;
-  color: white;
-  border: none;
-  padding: 10px 15px;
-  border-radius: 4px;
-  font-size: 14px;
-  cursor: pointer;
-  transition: background-color 0.3s;
-}
-
-button:disabled {
-  background-color: #ccc;
-  cursor: not-allowed;
-}
-
-button:hover:not(:disabled) {
-  background-color: #0056b3;
-}
-
-/* Estilo para el botón con la flecha */
-button i {
-  font-size: 18px; /* Tamaño de la flecha */
-  margin-right: 5px; /* Espacio entre la flecha y el texto */
-}
-
-/* Mensajes de error */
-.small-error-message {
-  color: red;
-  font-size: 12px;
-  margin-top: -8px;
-  margin-bottom: 10px;
-}
-
-/* Estilos del feed (sin cambios anteriores) */
-.feed {
-  width: 100%;
-  max-width: 600px;
+.feed-container {
+  max-width: 800px;
+  height: 80vh; /* Define un alto para el contenedor */
+  overflow-y: auto; /* Habilita scroll solo vertical */
   margin: 0 auto;
+  padding: 16px;
+}
+
+.posts-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.loading-spinner-container {
+  display: flex;
+  justify-content: center;
   padding: 20px;
-  font-family: Arial, sans-serif;
 }
 
-.header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border-bottom: 1px solid #ddd;
-  padding-bottom: 10px;
-  margin-bottom: 20px;
-}
-
-.header h2 {
-  margin: 0;
-  font-size: 24px;
-}
-
-.user-info {
-  display: flex;
-  align-items: center;
-}
-
-.user-info .avatar {
+.loading-spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid #f3f3f3;
+  border-top: 4px solid #3498db;
   border-radius: 50%;
-  margin-right: 10px;
+  animation: spin 1s linear infinite;
 }
 
-.post {
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  margin-bottom: 20px;
-  padding: 15px;
+.no-posts-message {
+  text-align: center;
+  padding: 40px;
+  color: #666;
+  font-size: 1.1em;
 }
 
-.post-header {
-  display: flex;
-  align-items: center;
-  margin-bottom: 10px;
-}
-
-.post-header .avatar {
-  border-radius: 50%;
-  margin-right: 10px;
-}
-
-.post-header span {
-  font-weight: bold;
-}
-
-.post-image {
-  max-width: 100%;
-  height: auto;
-  border-radius: 5px;
-  margin-top: 10px;
-  display: block;
-}
-
-.post-actions {
-  margin-top: 10px;
-}
-
-.post-actions button {
-  background: none;
-  border: none;
-  color: #007BFF;
-  cursor: pointer;
-  padding: 5px;
-}
-
-.post-actions button:hover {
-  text-decoration: underline;
-}
-
-.comments {
-  margin-top: 10px;
-  font-size: 14px;
-}
-
-.comment {
-  margin-bottom: 5px;
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }

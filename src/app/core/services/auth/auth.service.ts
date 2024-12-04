@@ -3,7 +3,7 @@ import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {BehaviorSubject, Observable, throwError} from 'rxjs';
 import {map, catchError} from 'rxjs/operators';
 import {environment} from '../../../../environments/environment.development';
-import {User, UserDTO} from '../../../shared/models/user';
+import {CurrentUserDTO, User, UserDTO} from '../../../shared/models/user';
 import {Router} from "@angular/router";
 import {AuthenticationDTO, PasswordRecoveryDTO} from "../../../shared/models/authentication";
 
@@ -12,16 +12,16 @@ import {AuthenticationDTO, PasswordRecoveryDTO} from "../../../shared/models/aut
 })
 export class AuthService {
   private apiUrl = environment.apiUrl;
-  private currentUserSubject: BehaviorSubject<UserDTO | null>;
+  private currentUserSubject: BehaviorSubject<CurrentUserDTO | null>;
   public currentUser: Observable<UserDTO | null>;
   private router = inject(Router);
 
   constructor(private http: HttpClient) {
-    this.currentUserSubject = new BehaviorSubject<UserDTO | null>(this.getUserFromStorage());
+    this.currentUserSubject = new BehaviorSubject<CurrentUserDTO | null>(this.getUserFromStorage());
     this.currentUser = this.currentUserSubject.asObservable();
   }
 
-  login(email: string, password: string): Observable<UserDTO> {
+  login(email: string, password: string): Observable<CurrentUserDTO> {
     const token = btoa(`${email}:${password}`);
 
     const headers = new HttpHeaders({
@@ -29,8 +29,7 @@ export class AuthService {
       'Content-Type': 'application/json',
       'Accept': 'application/json'
     });
-
-    return this.http.get<UserDTO>(`${this.apiUrl}/users/current`,
+    return this.http.get<CurrentUserDTO>(`${this.apiUrl}/users/current`,
       {
         headers: headers,
         withCredentials: true,
@@ -38,29 +37,31 @@ export class AuthService {
       },
     ).pipe(
       map(response => {
-        // Crear el objeto usuario con la respuesta
-        const user: UserDTO = {
-          email: email,
-          token: token,
-          idUser: response.body!.idUser,
-          name: response.body!.name,
-          lastName: response.body!.lastName,
-          secondLastName: response.body!.secondLastName,
-          controlNumber: response.body!.controlNumber,
-          careerName: response.body!.careerName
-        };
+          // Crear el objeto usuario con la respuesta
+          const user: CurrentUserDTO = {
+            email: email,
+            token: token,
+            idUser: response.body!.idUser,
+            name: response.body!.name,
+            lastName: response.body!.lastName,
+            secondLastName: response.body!.secondLastName,
+            imageProfile: response.body!.imageProfile,
+            controlNumber: response.body!.controlNumber,
+            careerName: response.body!.careerName
+          };
 
-        // Guardar en sessionStorage
-        const userToStore = {
-          ...user,
-        };
-        sessionStorage.setItem('currentUser', JSON.stringify(userToStore));
+          // Guardar en sessionStorage
+          const userToStore = {
+            ...user,
+          };
+          sessionStorage.setItem('currentUser', JSON.stringify(userToStore));
 
-        // Actualizar el BehaviorSubject
-        this.currentUserSubject.next(user);
+          // Actualizar el BehaviorSubject
+          this.currentUserSubject.next(user);
 
-        return user;
-      }),
+          return user;
+        }
+      ),
       catchError(error => {
         console.error('Error en login:', error);
         if (error.status === 0) {
@@ -121,12 +122,12 @@ export class AuthService {
     );
   }
 
-  private getUserFromStorage(): UserDTO | null {
+  private getUserFromStorage(): CurrentUserDTO | null {
     const user = sessionStorage.getItem('currentUser');
     return user ? JSON.parse(user) : null;
   }
 
-  get currentUserValue(): UserDTO | null {
+  get currentUserValue(): CurrentUserDTO | null {
     return this.currentUserSubject.value;
   }
 

@@ -1,84 +1,18 @@
-<!-- src/app/features/feed/feed.component.html -->
-
-<!-- Formulario para crear una publicación -->
-<div class="post-form-container">
-  <form>
-    <!-- Campo para escribir contenido -->
-    <textarea
-      [(ngModel)]="newPostContent"
-      name="newPostContent"
-      placeholder="¿Qué estás pensando?"
-      rows="4"
-    ></textarea>
-    <div *ngIf="newPostContent.length > 0 && newPostContent.length < 1">
-      <small class="small-error-message">
-        El contenido es obligatorio y debe tener al menos 1 carácter.
-      </small>
-    </div>
-
-    <!-- Campo para subir imagen -->
-    <input
-      type="file"
-      (change)="onImageSelected($event)"
-      accept="image/*"
-      name="selectedImage"
-    />
-
-    <!-- Botón para enviar el formulario -->
-    <button (click)="addPost()" [disabled]="newPostContent.length < 10">
-      Publicar
-    </button>
-  </form>
-</div>
-
-<!-- Feed de publicaciones -->
-<div class="feed">
-  <!-- Barra superior -->
-  <div class="header">
-    <h2>Mi Feed</h2>
-    <div class="user-info">
-      <img src="https://via.placeholder.com/50" alt="Avatar" class="avatar">
-      <span>Usuario</span>
-    </div>
+<div class="feed-container" (scroll)="onScroll($event)">
+  <div class="posts-list">
+    <app-post-card
+      *ngFor="let post of posts; trackBy: trackByPost"
+      [post]="post"
+      [currentUser]="currentUser"
+      (deletePost)="onDeletePost($event)"
+    ></app-post-card>
   </div>
 
-  <!-- Publicaciones renderizadas -->
-  <div *ngFor="let post of posts" class="post">
-    <div class="post-header">
-      <img src="https://via.placeholder.com/50" alt="Avatar" class="avatar">
-      <span>UsuarioX</span>
-    </div>
-    <p>{{ post.content }}</p>
-    <img *ngIf="post.image" [src]="post.image" alt="Post image" class="post-image">
+  <div class="loading-spinner-container" *ngIf="loading">
+    <div class="loading-spinner"></div>
+  </div>
 
-    <div class="post-actions">
-      <button (click)="likePost(post.id)">Me gusta ({{ post.likes }})</button>
-      <button (click)="toggleCommentBox(post.id)">Comentar</button>
-    </div>
-
-    <div *ngIf="post.showCommentBox" class="comment-box">
-      <!-- Comentario obligatorio -->
-      <textarea
-        [(ngModel)]="post.newComment"
-        placeholder="Escribe un comentario..."
-        rows="2"></textarea>
-
-      <!-- Mensaje de error si el comentario está vacío -->
-      <div *ngIf="post.newComment?.length === 0">
-      </div>
-
-      <!-- Botón con flecha para enviar el comentario -->
-      <button
-        (click)="commentOnPost(post.id, post.newComment)"
-        [disabled]="post.newComment?.length === 0">
-        <i class="fas fa-arrow-right"></i> <!-- Flecha de Font Awesome -->
-      </button>
-    </div>
-
-    <div class="comments">
-      <div *ngFor="let comment of post.comments" class="comment">
-        <strong>{{ comment.username }}:</strong> {{ comment.comment }}
-      </div>
-    </div>
+  <div class="no-posts-message" *ngIf="!hasMorePosts && posts.length === 0">
+    No hay publicaciones para mostrar
   </div>
 </div>

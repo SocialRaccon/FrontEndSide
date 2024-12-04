@@ -36,7 +36,6 @@ export class ProfileComponent implements OnInit {
     private postService: PostService,
     protected authService: AuthService
   ) {
-    // ... código existente ...
   }
 
   ngOnInit() {

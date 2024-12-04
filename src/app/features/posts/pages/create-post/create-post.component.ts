@@ -1,5 +1,5 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import {FormGroup, FormBuilder, Validators} from '@angular/forms';
 import {PostDTO} from "../../../../shared/models/post";
 import {PostService} from "@core/services/post.service";
 import {AuthService} from "@core/services/auth/auth.service";
@@ -14,6 +14,8 @@ export class CreatePostComponent {
   @Output() postCreated = new EventEmitter<PostDTO>();
   postForm: FormGroup;
   selectedFiles: File[] = [];
+  public isLoading: boolean = true;
+  public error: string | null = null;
 
   constructor(
     private fb: FormBuilder,
@@ -48,7 +50,7 @@ export class CreatePostComponent {
           this.selectedFiles = [];
         },
         error: (error) => {
-          console.error('Error creating post:', error);
+          this.error = error;
         },
         complete: () => {
           this.loadingService.hide();

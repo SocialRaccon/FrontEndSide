@@ -17,6 +17,9 @@
         (change)="onFileSelect($event)"
         multiple
         accept="image/*">
+      <small class="form-text text-muted">
+        Selecciona una o varias imágenes para tu publicación
+      </small>
     </div>
 
     <div class="d-flex justify-content-end mt-3">
@@ -28,4 +31,9 @@
       </button>
     </div>
   </form>
+
+  <!-- Error message -->
+  <div *ngIf="error" class="alert alert-danger mx-3">
+    {{ error }}
+  </div>
 </div>

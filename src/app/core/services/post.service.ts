@@ -4,6 +4,7 @@ import {Observable} from "rxjs";
 import {environment} from "../../../environments/environment.development";
 import {PostDTO} from "../../shared/models/post";
 import {ImagePostModel} from "../../shared/models/image-post";
+import {map} from "rxjs/operators";
 
 @Injectable({
   providedIn: 'root'
@@ -22,9 +23,11 @@ export class PostService {
   }
 
   // Obtener feed de posts
-  getFeed(page: number = 0, size: number = 10): Observable<PostDTO[]> {
+  getFeed(page: number = 0, size: number = 10): Observable<any[]> {
     const params = new HttpParams().set('page', page.toString()).set('size', size.toString());
-    return this.http.get<PostDTO[]>(`${this.apiUrl}/feed`, {params});
+    return this.http.get<any>(this.apiUrl + '/feed', {params}).pipe(
+      map(response => response.content) // Extraer el array 'content' del objeto de respuesta
+    );
   }
 
   // Obtener feed aleatorio por carrera

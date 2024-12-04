@@ -136,7 +136,7 @@ body{
 }
 
 .btn-shadow:hover {
-  background: #383d63;
+  background: #386351;
   transform: translateY(-1px);
   box-shadow: 0 4px 15px rgba(44, 48, 77, 0.2);
   color: #fff;

@@ -1,5 +1,7 @@
 // src/app/shared/models/user.ts
 
+import {ImageProfileModel} from "./image-profile";
+
 export interface User {
   email: string;
   token: string;
@@ -20,7 +22,17 @@ export interface UserDTO {
   email: string;
   token: string;
 }
-
+export interface CurrentUserDTO {
+  idUser: number;
+  name: string;
+  lastName: string;
+  secondLastName: string;
+  controlNumber: string;
+  careerName: string;
+  imageProfile: ImageProfileModel;
+  email: string;
+  token: string;
+}
 export interface UserRequestDTO {
   userId: number;
   name: string;

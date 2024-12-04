@@ -53,7 +53,6 @@ export class SidebarComponent implements OnInit {
             return;
           }
           this.profileImage = Array.from(profile.images.values())[0].imageThumbnailUrl;
-          console.log('Profile image', profile);
         },
         error: (error) => {
           console.error('Error getting profile image', error);
