@@ -18,7 +18,7 @@ import { Coordenada } from "../../../interfaces/coordenada.interface";
 })
 export class MapaComponent {
   @Output()
-  coordenadaSeleccionada = new EventEmitter<Coordenada>(); // Cambié el nombre para reflejar mejor su propósito.
+  coordenadaSeleccionada = new EventEmitter<Coordenada>();
 
   // Configuración inicial del mapa
   options = {
@@ -28,7 +28,7 @@ export class MapaComponent {
         attribution: 'Map data © OpenStreetMap contributors',
       }),
     ],
-    zoom: 15,
+    zoom: 16,
     center: latLng(19.882707219725226, -97.39298711668894), // Coordenadas iniciales
   };
 

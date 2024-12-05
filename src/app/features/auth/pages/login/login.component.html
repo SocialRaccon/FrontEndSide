@@ -48,10 +48,10 @@
         <span *ngIf="loading" class="spinner-border spinner-border-sm me-1" role="status" aria-hidden="true"></span>
         {{ loading ? 'Iniciando sesión...' : 'Entrar' }}
       </button>
+      <div>Conoce el tec de Teziutlán</div>
+      <div class="mapa-container">
+        <app-mapa></app-mapa>
+      </div>
     </div>
   </form>
-  <!-- Mapa Component -->
-  <div class="mapa-container">
-    <app-mapa></app-mapa>
-  </div>
 </div>
