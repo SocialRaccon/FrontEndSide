@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
 import {AuthService} from "@core/services/auth/auth.service";
+import {Coordenada} from "../../../../interfaces/coordenada.interface";
 
 @Component({
   selector: 'app-login',
@@ -12,6 +13,7 @@ export class LoginComponent implements OnInit {
   loginForm: FormGroup;
   error: string = '';
   loading: boolean = false;
+  coordenada!: Coordenada; // Coordenada seleccionada
 
   constructor(
     private fb: FormBuilder,

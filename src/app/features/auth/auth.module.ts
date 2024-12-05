@@ -6,21 +6,24 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {LoginComponent} from "./pages/login/login.component";
 import {RegisterComponent} from "./pages/register/register.component";
 import { AuthComponent } from './auth.component';
+import {SharedModule} from "../../shared/shared.module";
+import {MapaComponent} from "../../shared/components/mapa/mapa.component";
 
 @NgModule({
   declarations: [
     LoginComponent,
     RegisterComponent,
-    AuthComponent
+    AuthComponent,
   ],
   exports: [
     AuthComponent
   ],
-  imports: [
-    CommonModule,
-    AuthRoutingModule,
-    FormsModule,
-    ReactiveFormsModule
-  ]
+    imports: [
+        CommonModule,
+        AuthRoutingModule,
+        FormsModule,
+        ReactiveFormsModule,
+        SharedModule,
+    ]
 })
 export class AuthModule { }
