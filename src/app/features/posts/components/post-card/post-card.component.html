@@ -127,6 +127,11 @@
         </button>
       </div>
 
+      <!-- Error message -->
+      <div *ngIf="error" class="alert alert-danger mx-3">
+        {{ error }}
+      </div>
+
       <!-- Lista de comentarios -->
       <div class="comment-list">
         <div class="comment-item" *ngFor="let comment of comments">

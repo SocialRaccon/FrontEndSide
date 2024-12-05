@@ -50,7 +50,7 @@ export class CreatePostComponent {
           this.selectedFiles = [];
         },
         error: (error) => {
-          this.error = error;
+          this.error = error.error.message;
         },
         complete: () => {
           this.loadingService.hide();

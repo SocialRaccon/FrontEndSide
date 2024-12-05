@@ -26,6 +26,7 @@ export class PostCardComponent implements OnInit {
   showReactionPicker = false;
   showReactionDetails = false;
   isLoadingReactions = false;
+  error = '';
 
   // Mapeo de reacciones a URLs
   readonly REACTION_ICONS: { [key: number]: string } = {
@@ -116,7 +117,6 @@ export class PostCardComponent implements OnInit {
     const minutes = Math.floor(diff / 60000);
     const hours = Math.floor(minutes / 60);
     const days = Math.floor(hours / 24);
-    console.log(postDate);
     if (days > 0) return `hace ${days} ${days === 1 ? 'día' : 'días'}`;
     if (hours > 0) return `hace ${hours} ${hours === 1 ? 'hora' : 'horas'}`;
     if (minutes > 0) return `hace ${minutes} ${minutes === 1 ? 'minuto' : 'minutos'}`;
@@ -129,10 +129,15 @@ export class PostCardComponent implements OnInit {
     this.commentService.create(this.post.post, {
       idUser: this.currentUser.idUser,
       comment: this.newComment.trim()
-    }).subscribe(() => {
-      this.loadComments();
-      this.newComment = '';
-    });
+    }).subscribe(
+      () => {
+        this.loadComments();
+        this.newComment = '';
+      },
+      error => {
+        this.error = error.error.message;
+      }
+    )
   }
 
   ngOnInit() {
@@ -161,8 +166,15 @@ export class PostCardComponent implements OnInit {
   }
 
   deleteComment(idComment: number) {
-    this.commentService.delete(idComment).subscribe(() => {
-      this.loadComments();
+    //Show alert for confirmation
+    confirm('¿Estás seguro de que deseas eliminar este comentario?');
+    this.commentService.delete(idComment).subscribe({
+      next: () => {
+        this.loadComments();
+      },
+      error: (error) => {
+        console.error('Error deleting comment:', error);
+      }
     });
   }
 

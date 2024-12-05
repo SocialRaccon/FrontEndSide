@@ -16,7 +16,7 @@ import {PostDTO} from 'app/shared/models/post';
   styleUrls: ['./profile.component.css']
 })
 export class ProfileComponent implements OnInit {
-  public txtFollow: string = 'Follow';
+  public txtFollow: string = '';
   public profile: ProfileDTO | null = null;
   public currentProfileImage: ImageProfileModel | null = null;
   public isLoading: boolean = true;
@@ -64,6 +64,7 @@ export class ProfileComponent implements OnInit {
     this.isLoading = true;
     this.relationshipService.getFollowing(this.userIdActive).subscribe({
       next: (following) => {
+        console.log(following)
         this.txtFollow = following.some(f => f.idUser === this.userIdProfile) ? 'Unfollow' : 'Follow';
         this.isLoading = false;
       },
@@ -81,8 +82,7 @@ export class ProfileComponent implements OnInit {
         this.profile = profile;
         this.setCurrentProfileImage();
         this.isLoading = false;
-      }
-      ,
+      },
       complete: () => {
         this.userIdProfile = this.profile?.idProfile || 0;
         this.isLoading = false;
@@ -145,6 +145,7 @@ export class ProfileComponent implements OnInit {
       complete: () => {
         this.userIdProfile = this.profile?.idProfile || 0;
         this.isLoading = false;
+        console.log(this.userIdActive, this.userIdProfile);
         this.userIdActive === this.userIdProfile ? this.txtFollow = 'Edit profile' : this.checkFollowStatus();
         this.loadPosts();
       },

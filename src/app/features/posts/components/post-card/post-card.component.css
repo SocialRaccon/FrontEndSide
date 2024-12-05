@@ -31,6 +31,7 @@
 .user-details {
   display: flex;
   flex-direction: column;
+  background: #ffffff;
 }
 
 .user-details h3 {

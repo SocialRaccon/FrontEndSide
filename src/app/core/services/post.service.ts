@@ -1,10 +1,10 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpParams} from "@angular/common/http";
-import {Observable} from "rxjs";
+import {Observable, retry, throwError, timeout} from "rxjs";
 import {environment} from "../../../environments/environment.development";
 import {PostDTO} from "../../shared/models/post";
 import {ImagePostModel} from "../../shared/models/image-post";
-import {map} from "rxjs/operators";
+import {catchError, map} from "rxjs/operators";
 
 @Injectable({
   providedIn: 'root'
@@ -19,7 +19,16 @@ export class PostService {
   // Obtener posts de un usuario con paginación
   getPostsByUserId(userId: number, page: number = 0, size: number = 10): Observable<PostDTO[]> {
     const params = new HttpParams().set('page', page.toString()).set('size', size.toString());
-    return this.http.get<PostDTO[]>(`${this.apiUrl}/${userId}`, {params});
+    return this.http.get<PostDTO[]>(`${this.apiUrl}/${userId}`, {params}).pipe(
+      timeout(50000),
+      retry(3),
+      catchError(this.handleError)
+    );
+  }
+
+  private handleError(error: any): Observable<never> {
+    console.error('An error occurred:', error);
+    return throwError('Something bad happened; please try again later.');
   }
 
   // Obtener feed de posts
